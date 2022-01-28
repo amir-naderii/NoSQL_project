@@ -1,0 +1,86 @@
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\r\n         xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n    <modelVersion>4.0.0</modelVersion>\r\n\r\n    <groupId>org.example</groupId>\r\n    <artifactId>NoSQL_project</artifactId>\r\n    <version>1.0-SNAPSHOT</version>\r\n\r\n    <properties>\r\n        <maven.compiler.source>1.8</maven.compiler.source>\r\n        <maven.compiler.target>1.8</maven.compiler.target>\r\n    </properties>\r\n\r\n    <dependencies>\r\n\r\n        <dependency>\r\n            <groupId>org.mongodb</groupId>\r\n            <artifactId>mongo-java-driver</artifactId>\r\n            <version>3.12.10</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>org.jsoup</groupId>\r\n            <artifactId>jsoup</artifactId>\r\n            <version>1.13.1</version>\r\n        </dependency>\r\n        <dependency>\r\n            <groupId>junit</groupId>\r\n            <artifactId>junit</artifactId>\r\n            <version>RELEASE</version>\r\n            <scope>compile</scope>\r\n        </dependency>\r\n\r\n    </dependencies>\r\n\r\n\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision a4c499319cf78dbe370abd2a4f3f829c08850a1e)
++++ b/pom.xml	(date 1643386792865)
+@@ -28,7 +28,7 @@
+         <dependency>
+             <groupId>junit</groupId>
+             <artifactId>junit</artifactId>
+-            <version>RELEASE</version>
++            <version>4.12</version>
+             <scope>compile</scope>
+         </dependency>
+ 
+Index: src/main/java/ir/ac/kntu/scrapping/MongoDBSetUp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ir.ac.kntu.scrapping;\r\n\r\nimport com.mongodb.MongoClient;\r\nimport com.mongodb.MongoClientURI;\r\n\r\npublic class MongoDBSetUp {\r\n    private static MongoDBSetUp single_instance = null;\r\n\r\n    public MongoClient mongoClient;\r\n\r\n    public MongoDBSetUp(){\r\n        mongoClient = new MongoClient(\"local host\",27017);\r\n    }\r\n\r\n    public static MongoClient getInstance(){\r\n        if (single_instance == null){\r\n            single_instance = new MongoDBSetUp();\r\n        }\r\n        return single_instance.mongoClient;\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ir/ac/kntu/scrapping/MongoDBSetUp.java b/src/main/java/ir/ac/kntu/scrapping/MongoDBSetUp.java
+--- a/src/main/java/ir/ac/kntu/scrapping/MongoDBSetUp.java	(revision a4c499319cf78dbe370abd2a4f3f829c08850a1e)
++++ b/src/main/java/ir/ac/kntu/scrapping/MongoDBSetUp.java	(date 1643386767038)
+@@ -9,7 +9,7 @@
+     public MongoClient mongoClient;
+ 
+     public MongoDBSetUp(){
+-        mongoClient = new MongoClient("local host",27017);
++        mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
+     }
+ 
+     public static MongoClient getInstance(){
+Index: src/main/java/ir/ac/kntu/scrapping/Exercise1ConnectingTest.java
+===================================================================
+diff --git a/src/main/java/ir/ac/kntu/scrapping/Exercise1ConnectingTest.java b/src/main/java/ir/ac/kntu/scrapping/Exercise1ConnectingTest.java
+deleted file mode 100644
+--- a/src/main/java/ir/ac/kntu/scrapping/Exercise1ConnectingTest.java	(revision a4c499319cf78dbe370abd2a4f3f829c08850a1e)
++++ /dev/null	(revision a4c499319cf78dbe370abd2a4f3f829c08850a1e)
+@@ -1,21 +0,0 @@
+-package ir.ac.kntu.scrapping;
+-
+-import com.mongodb.MongoClient;
+-import com.mongodb.MongoClientURI;
+-import org.junit.Test;
+-
+-import static org.hamcrest.CoreMatchers.is;
+-import static org.hamcrest.CoreMatchers.notNullValue;
+-import static org.junit.Assert.assertThat;
+-
+-public class Exercise1ConnectingTest {
+-    @Test
+-    public void shouldCreateANewMongoClientConnectedToLocalhost() {
+-        // When
+-        // TODO: get/create the MongoClient
+-        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
+-
+-        // Then
+-        assertThat(mongoClient, is(notNullValue()));
+-    }
+-}
+\ No newline at end of file
+Index: src/main/java/ir/ac/kntu/scrapping/Main.java
+===================================================================
+diff --git a/src/main/java/ir/ac/kntu/scrapping/Main.java b/src/main/java/ir/ac/kntu/scrapping/Main.java
+deleted file mode 100644
+--- a/src/main/java/ir/ac/kntu/scrapping/Main.java	(revision a4c499319cf78dbe370abd2a4f3f829c08850a1e)
++++ /dev/null	(revision a4c499319cf78dbe370abd2a4f3f829c08850a1e)
+@@ -1,12 +0,0 @@
+-package ir.ac.kntu.scrapping;
+-
+-import com.mongodb.*;
+-import com.mongodb.client.MongoDatabase;
+-
+-
+-public class Main {
+-
+-    public static void main(String[] args) throws InterruptedException {
+-
+-    }
+-}
