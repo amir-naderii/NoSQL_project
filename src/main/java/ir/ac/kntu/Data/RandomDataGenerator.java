@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Random;
 
 public class RandomDataGenerator {
+    private int counter = 0;
 
     public final Address[] addresses = {new Address("Turkey","Istanbul","IST"),
                                         new Address("Turkey","Ankara","ESB"),
@@ -37,12 +38,24 @@ public class RandomDataGenerator {
         flightId +=100;
         int addressInx = random.nextInt(addresses.length);
         int iranAddressInx = random.nextInt(iranAddresses.length);
-        Date flightDate = new Date(2022, Calendar.MARCH,random.nextInt(7)+1,
+        Date flightDate = new Date(new Date().getYear(), Calendar.FEBRUARY,random.nextInt(7)+1,
                 random.nextInt(24), random.nextInt(60));
-        Date arrivalDate = new Date(2022, Calendar.MARCH,random.nextInt(7)+1,
-                random.nextInt(24), random.nextInt(60));
+        int hour = flightDate.getHours() + random.nextInt(8)+1;
+        int day = flightDate.getDate();
+        if (hour >= 24) {
+            day++;
+            hour -= 24;
+        }
+        Date arrivalDate = new Date(new Date().getYear(), Calendar.FEBRUARY,day,
+                hour, random.nextInt(60));
         int airlineInx = random.nextInt(airlines.length);
         int flightTypeInx = random.nextInt(flightTypes.length);
+        if (counter%2==0) {
+            return new Flight(Integer.toString(flightId), iranAddresses[iranAddressInx],
+                    addresses[addressInx], flightDate,airlines[airlineInx]
+                    ,arrivalDate, flightTypes[flightTypeInx], random.nextInt(221)+80,
+                    random.nextInt(401) + 100);
+        }
         return new Flight(Integer.toString(flightId), addresses[addressInx],
                 iranAddresses[iranAddressInx], flightDate,airlines[airlineInx]
                 ,arrivalDate, flightTypes[flightTypeInx], random.nextInt(221)+80,
@@ -55,6 +68,7 @@ public class RandomDataGenerator {
             DB db = MongoDBSetUp.getInstance().getDB("FlightDataBase");
             DBCollection collection = db.getCollection("flights");
             collection.insert(flight);
+            counter++;
         }
     }
 
