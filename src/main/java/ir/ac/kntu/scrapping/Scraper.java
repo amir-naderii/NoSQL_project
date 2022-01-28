@@ -1,11 +1,11 @@
 package ir.ac.kntu.scrapping;
 
 
+import ir.ac.kntu.Data.Flight;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-import java.awt.datatransfer.FlavorListener;
 import java.io.IOException;
 import java.util.*;
 

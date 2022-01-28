@@ -2,6 +2,7 @@ package ir.ac.kntu.scrapping;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import ir.ac.kntu.Data.Flight;
 
 public class FlightDB {
 
@@ -11,3 +12,8 @@ public class FlightDB {
     }
 
 }
+
+//.append("flightDate",flight.getFlightDate())
+//        .append("airline",flight.getAirline()).append("arrivalTime",flight.getArrivalDate())
+//        .append("arrivalGate",flight.getArrivalGate()).append("departureGate", flight.getDepartureGate())
+//        .append("flightDuration",flight.getFlightDuration()
