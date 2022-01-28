@@ -1,9 +1,10 @@
 package ir.ac.kntu.Data;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Flight {
+public class Flight{
     private String flightId;
     private Address departFrom;
     private Address destination;
