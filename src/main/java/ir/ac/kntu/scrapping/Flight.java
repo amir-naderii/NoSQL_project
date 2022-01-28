@@ -11,6 +11,7 @@ public class Flight {
     private String arrivalTime;
     private String arrivalGate;
     private String departureGate;
+    private String flightDuration;
 
 
     public int getFlightId() {
@@ -87,6 +88,14 @@ public class Flight {
 
     public void setDepartureGate(String departureGate) {
         this.departureGate = departureGate;
+    }
+
+    public String getFlightDuration() {
+        return flightDuration;
+    }
+
+    public void setFlightDuration(String flightDuration) {
+        this.flightDuration = flightDuration;
     }
 
     @Override

@@ -18,10 +18,11 @@ public class Scraper {
 
     public static List<Flight> getAllFlights() throws IOException {
         List<Flight> flights = new ArrayList<Flight>();
-        final String msnAirport = "https://www.msnairport.com/flight_travel/arrivals";
+        final String emirates = "";
 
-        final Document document = Jsoup.connect(msnAirport).get();
-        for( Element element : document.select("table.table.table-condensed.table-striped tr")){
+        final Document document = Jsoup.connect(emirates).get();
+        System.out.println(document.body());
+        for( Element element : document.select(" tr")){
             System.out.println(element.getAllElements().text());
 //            String departFrom = element.select("td").text();
 //            System.out.println(departFrom);
