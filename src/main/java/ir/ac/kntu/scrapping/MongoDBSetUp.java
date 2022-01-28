@@ -9,7 +9,7 @@ public class MongoDBSetUp {
     public MongoClient mongoClient;
 
     public MongoDBSetUp(){
-        mongoClient = new MongoClient("local host",27017);
+        mongoClient = new MongoClient("localhost",27017);
     }
 
     public static MongoClient getInstance(){
