@@ -17,8 +17,9 @@ public class Main {
 //        randomDataGenerator.generate(100);
         DBCollection collection = MongoDBSetUp.getInstance().getDB("FlightDataBase").getCollection("flights");
         Query query = new Query();
-        DBCursor cursor = query.firstQuery(collection,new Date(new Date().getYear(), Calendar.FEBRUARY,3,19,27));
+        DBCursor cursor = query.firstQuery(collection,new Date(new Date().getYear(), Calendar.FEBRUARY,3,0,0));
         int cnt = 0;
+        System.out.println(cursor.size());
         while(cursor.size() > cnt){
             System.out.println("boozh boozh");
             System.out.println(cursor.next().get("flightId").toString());

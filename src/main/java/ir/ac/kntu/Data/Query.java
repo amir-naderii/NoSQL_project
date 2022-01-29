@@ -13,19 +13,18 @@ import java.util.*;
 public class Query {
 
     public DBCursor firstQuery(DBCollection collection, Date date){
-        Date nextDate = (Date) date.clone();
         Calendar c = Calendar.getInstance();
-        c.setTime(nextDate);
+        c.setTime(date);
         c.add(Calendar.DATE, 1);
-//        BasicDBObject firstQuery = new BasicDBObject("$and", Arrays.asList(
-//                new BasicDBObject("flightDate", new BasicDBObject("$gte",date)),
-//                new BasicDBObject("first_name",  new BasicDBObject("$lt", nextDate))));
-        BasicDBObject firstQuery = new BasicDBObject("flightDate",date);
+        Date nextDate = c.getTime();
+        System.out.println(date.toString());
+        System.out.println(nextDate.toString());
+        BasicDBObject firstQuery = new BasicDBObject("$and", Arrays.asList(
+                new BasicDBObject("flightDate", new BasicDBObject("$gte",date)),
+                new BasicDBObject("flightDate",  new BasicDBObject("$lt", nextDate))));
         return collection.find(firstQuery);
 
     }
-//        return collection.find(new BasicDBObject({"flightDate",new BasicDBObject("$gte",new Date("2022-02-03T00:00:00.000Z"))
-//                    "$lt": new Date("2022-02-04T00:00:00.000Z"
 
     }
 
