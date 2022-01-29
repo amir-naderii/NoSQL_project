@@ -134,13 +134,41 @@ public class Query {
                 new Document("flightDate", new Document("$lt", nextDate))));
     }// this query is for deletion
 
-    public Bson eleventhQuery(int newCapacity){
+    public Bson updateCapacity(int newCapacity){
         Bson update = Updates.set("capacity",newCapacity);
         return update;
     }
-    // these are the lines for helper function:
-    //Document query11 = new Document("flightId","563");
-    // collection.updateOne(query11,query.eleventhQuery(310));
+
+    public Document eleventhQuery(String flightId){
+        return new Document("flightId",flightId);
+    }
+    // collection.updateOne(query.eleventhQuery(flightId,query.updateCapacity(newCapacity);
+
+    public Document twelfthQuery(String airline, Date date, String departure, String destination){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, 1);
+        Date nextDate = c.getTime();
+        return new Document("$and",Arrays.asList(
+                new Document("departure.city", departure),
+                new Document("destination.city", destination),
+                new Document("flightDate", new Document("$gte", date)),
+                new Document("flightDate", new Document("$lt", nextDate))
+        ));
+    }
+    //collection.updateOne(query.twelfthQuery(flightId,query.updateCapacity(newCapacity);
+
+    public Document thirteenthQuery(String departureCon, String destinationCon, Date date){
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, 1);
+        Date nextDate = c.getTime();
+        return new Document("$and",Arrays.asList(
+                new Document("departure.country", departureCon),
+                new Document("destination.country", destinationCon),
+                new Document("flightDate", new Document("$gte", date)),
+                new Document("flightDate", new Document("$lt", nextDate))));
+    }
+    // .projection(Projections.include("departure.airport","destination.airport))
 }
 
-//.projection(Projections.include("airline"))
