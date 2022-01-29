@@ -26,5 +26,20 @@ public class Query {
 
     }
 
+    public DBCursor secondQuery(DBCollection collection, int priceFrom,int priceTo){
+        BasicDBObject secondQuery = new BasicDBObject("$and", Arrays.asList(
+                new BasicDBObject("cost", new BasicDBObject("$gte",priceFrom)),
+                new BasicDBObject("cost",  new BasicDBObject("$lt", priceTo))));
+        return collection.find(secondQuery);
+    }
+
+    public DBCursor thirdQuery(DBCollection collection, String departure, String destination){
+        BasicDBObject thirdQuery = new BasicDBObject("$and", Arrays.asList(
+                new BasicDBObject("departure.city",departure),
+                 new BasicDBObject("destination.city", destination)));
+        return collection.find(thirdQuery);
+    }
+
+    public DBCursor forthQuery(DBCollection collection, )
     }
 
