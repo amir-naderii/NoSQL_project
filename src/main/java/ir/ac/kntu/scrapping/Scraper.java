@@ -16,14 +16,14 @@ public class Scraper {
 
     }
 
-    public static List<Flight> getAllFlights() throws IOException {
+    public static void getAllFlights() throws IOException {
         List<Flight> flights = new ArrayList<Flight>();
-        final String emirates = "";
+        final String emirates = "https://www.flyhia.com/flight-airline-information/arrivals-departures/";
 
         final Document document = Jsoup.connect(emirates).get();
         System.out.println(document.body());
-        for( Element element : document.select(" tr")){
-            System.out.println(element.getAllElements().text());
+//        for( Element element : document.select(" tr")){
+//            System.out.println(element.getAllElements().text());
 //            String departFrom = element.select("td").text();
 //            System.out.println(departFrom);
 //            String flightId = element.select("td").get(3).text();
@@ -37,7 +37,6 @@ public class Scraper {
 //            flight.setAirline(Airline);
 //            flight.setArrivalGate(arrivalGate);
 //            flights.add(flight);
-        }
-        return flights;
+//        }
     }
 }
