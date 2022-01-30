@@ -1,12 +1,12 @@
 package ir.ac.kntu.Data;
 
-import com.mongodb.Block;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.*;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import javax.print.Doc;
 import java.util.*;
 
 public class Query {
@@ -35,12 +35,12 @@ public class Query {
     public List<Document> thirdQuery(String departure, String destination) {
         return Arrays.asList(
                 new Document("$match", new Document("$and", Arrays.asList(new Document("destination.city",destination)
-                        ,new Document("departure.city",departure)))),
-                new Document("$group",new Document("_id", null)
+                        ,new Document("departure.city",departure))))
+                , new Document("$group",new Document("_id", null)
                         .append("min", new Document("$min", "$cost"))
                         .append("max", new Document("$max", "$cost"))),
-                new Document("$project", new Document("_id", 0)
-                ));
+                new Document("$project", new Document("_id", 0))
+        );
     }
 
     public List<Document> forthQuery(String departure, String destination) {
@@ -67,8 +67,9 @@ public class Query {
         }else if(departure!= null && destination != null && avrOrMax.equals("avr")){
             fifthQuery = forthQuery(departure, destination);
         }
-        fifthQuery.add(new Document("$match", new Document("flightType", flightType)));
-        return fifthQuery;
+        ArrayList<Document> docs = new ArrayList<>(fifthQuery);
+        docs.add(0,new Document("$match", new Document("flightType", flightType)));
+        return docs;
     }
 
     public List<Document> sixthQuery(int priceFrom,
@@ -93,17 +94,18 @@ public class Query {
         );
     }
 
-    public List<Document> eighthQuery(Date dateFrom, Date dateTo, String departure, String destination, int capacity,
-                                int priceFrom, int priceTo){
-        List<Document> eighthQuery = null;
+    public List<Document> eighthQuery(Date dateFrom, Date dateTo, String departure,
+                                      String destination, int capacity, int priceFrom, int priceTo){
+        ArrayList<Document> eighthQuery = null;
         if(capacity == 0){
-            eighthQuery = sixthQuery(priceFrom, priceTo, departure, destination);
-            eighthQuery.add(new Document("$match", new Document("$and", Arrays.asList(
+            eighthQuery = new ArrayList<>(
+                    sixthQuery(priceFrom, priceTo, departure, destination));
+            eighthQuery.add(0, new Document("$match", new Document("$and", Arrays.asList(
                     new Document("flightDate", new Document("$gte", dateFrom)),
                     new Document("flightDate", new Document("$lt", dateTo))))));
         }else if(priceTo == 0){
-            eighthQuery = seventhQuery(departure, destination, capacity);
-            eighthQuery.add(new Document("$match", new Document("$and", Arrays.asList(
+            eighthQuery = new ArrayList<>(seventhQuery(departure, destination, capacity));
+            eighthQuery.add(0, new Document("$match", new Document("$and", Arrays.asList(
                     new Document("flightDate", new Document("$gte", dateFrom)),
                     new Document("flightDate", new Document("$lt", dateTo))))));
         }
@@ -184,9 +186,6 @@ public class Query {
         long size = collection.countDocuments();
         int i = 0;
         List<AggregateIterable> result = new ArrayList<>();
-        result.add(collection.aggregate(Arrays.asList(
-                new Document("$limit", pageSize)
-        )));
         while(size > 0) {
             result.add(collection.aggregate(Arrays.asList(
                     new Document("$skip", i*pageSize),
@@ -198,29 +197,21 @@ public class Query {
         return result;
     }
 
-    public AggregateIterable sortQuery(MongoCollection collection, boolean ascOrDesc, boolean dateOrCost){
-        AggregateIterable iter = null;
+    public List<Document> sortQuery(List<Document> docs, boolean ascOrDesc, boolean dateOrCost){
+        ArrayList<Document> documents = new ArrayList<Document>(docs);
         if(ascOrDesc && dateOrCost) {
-            iter = collection.aggregate(Arrays.asList(
-                    new Document("$sort", new Document("flightDate", 1))
-            ));
+            documents.add( new Document("$sort", new Document("flightDate", 1)));
         }
         if(!ascOrDesc && dateOrCost) {
-            iter = collection.aggregate(Arrays.asList(
-                    new Document("$sort", new Document("flightDate", -1))
-            ));
+            documents.add(new Document("$sort", new Document("flightDate", -1)));
         }
         if(ascOrDesc && !dateOrCost) {
-            iter = collection.aggregate(Arrays.asList(
-                    new Document("$sort", new Document("cost", 1))
-            ));
+            documents.add(new Document("$sort", new Document("cost", 1)));
         }
         if(!ascOrDesc && !dateOrCost) {
-            iter = collection.aggregate(Arrays.asList(
-                    new Document("$sort", new Document("cost", -1))
-            ));
+            documents.add(new Document("$sort", new Document("cost", -1)));
         }
-        return iter;
+        return documents;
     }
 }
 
