@@ -210,12 +210,12 @@ public class Query {
                     new Document("$sort", new Document("flightDate", -1))
             ));
         }
-        if(ascOrDesc && dateOrCost) {
+        if(ascOrDesc && !dateOrCost) {
             iter = collection.aggregate(Arrays.asList(
                     new Document("$sort", new Document("cost", 1))
             ));
         }
-        if(!ascOrDesc && dateOrCost) {
+        if(!ascOrDesc && !dateOrCost) {
             iter = collection.aggregate(Arrays.asList(
                     new Document("$sort", new Document("cost", -1))
             ));
