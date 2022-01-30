@@ -5,6 +5,7 @@ import ir.ac.kntu.Data.Flight;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.*;
@@ -18,14 +19,16 @@ public class Scraper {
 
     public static List<Flight> getAllFlights() throws IOException {
         List<Flight> flights = new ArrayList<Flight>();
-        final String emirates = "";
+        final String emirates = "https://sacramento.aero/smf/flight-and-travel/flight-status";
 
         final Document document = Jsoup.connect(emirates).get();
-        System.out.println(document.body());
-        for( Element element : document.select(" tr")){
-            System.out.println(element.getAllElements().text());
-//            String departFrom = element.select("td").text();
-//            System.out.println(departFrom);
+
+        for( Element element : document.select("table.table-flight.table-arrival.table-flight-sort tr")){
+            String departFrom = element.select(".tooltip").text();
+            String arrivalTime = element.select(".time").text();
+            String flightNumber = element.select(".first").text();
+            String arrivalGate = element.select(".last").text();
+
 //            String flightId = element.select("td").get(3).text();
 //            String arrivalTime = element.select("td").get(1).text();
 //            String Airline = element.select("td").get(2).text();
@@ -38,6 +41,6 @@ public class Scraper {
 //            flight.setArrivalGate(arrivalGate);
 //            flights.add(flight);
         }
-        return flights;
+         return flights;
     }
 }
