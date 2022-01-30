@@ -1,14 +1,17 @@
 package ir.ac.kntu.scrapping;
 
 
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import ir.ac.kntu.Data.Address;
 import ir.ac.kntu.Data.Flight;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Date;
 
 public class Scraper {
 
@@ -17,30 +20,39 @@ public class Scraper {
 
     }
 
-    public static List<Flight> getAllFlights() throws IOException {
-        List<Flight> flights = new ArrayList<Flight>();
+    public static void getAllFlights() throws IOException {
         final String emirates = "https://sacramento.aero/smf/flight-and-travel/flight-status";
 
         final Document document = Jsoup.connect(emirates).get();
 
         for( Element element : document.select("table.table-flight.table-arrival.table-flight-sort tr")){
-            String departFrom = element.select(".tooltip").text();
+            String depart = element.select(".tooltip").text();
+            Address departFrom = new Address(null, null, depart);
             String arrivalTime = element.select(".time").text();
-            String flightNumber = element.select(".first").text();
+            int hour = 0;
+            int minute = 0;
+            if(arrivalTime.matches(".*AM$")){
+                hour = Integer.parseInt(arrivalTime.substring(0, arrivalTime.length()-5));
+                minute = Integer.parseInt(arrivalTime.substring(3, arrivalTime.length()-2));
+                System.out.println(hour+" "+minute);
+            }else if(arrivalTime.matches(".*PM$")){
+                hour = Integer.parseInt(arrivalTime.substring(0, arrivalTime.length()-5))+12;
+                minute = Integer.parseInt(arrivalTime.substring(3, arrivalTime.length()-2));
+                //System.out.println(hour+" "+minute);
+            }else {
+                continue;
+            }
+            Date now = new Date();
+            Date arrivalDate = new Date(now.getYear(),now.getMonth(),now.getDate(),hour, minute);
+            String flightId = element.select(".first").text();
             String arrivalGate = element.select(".last").text();
 
-//            String flightId = element.select("td").get(3).text();
-//            String arrivalTime = element.select("td").get(1).text();
-//            String Airline = element.select("td").get(2).text();
-//            String arrivalGate = element.select("td").get(4).text();
-//            Flight flight = new Flight();
-//            flight.setFlightId(flightId);
-//            flight.setDepartFrom(departFrom);
-//            flight.setArrivalTime(arrivalTime);
-//            flight.setAirline(Airline);
-//            flight.setArrivalGate(arrivalGate);
-//            flights.add(flight);
+            Flight f = new Flight(flightId, departFrom, arrivalDate, arrivalGate);
+            //System.out.println(f.getArrivalDate());
+            DBObject flight = FlightDB.toRDBObject(f);
+            DB db = MongoDBSetUp.getInstance().getDB("FlightDataBase");
+            DBCollection collection = db.getCollection("flights");
+            collection.insert(flight);
         }
-         return flights;
     }
 }

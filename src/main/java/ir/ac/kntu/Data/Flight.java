@@ -7,6 +7,22 @@ import java.util.Date;
 public class Flight{
     private String flightId;
     private Address departFrom;
+
+    public String getArrivalGate() {
+        return arrivalGate;
+    }
+
+    public void setArrivalGate(String arrivalGate) {
+        this.arrivalGate = arrivalGate;
+    }
+
+    public Flight(String flightId, Address departFrom, Date arrivalDate, String arrivalGate) {
+        this.flightId = flightId;
+        this.departFrom = departFrom;
+        this.arrivalDate = arrivalDate;
+        this.arrivalGate = arrivalGate;
+    }
+
     private Address destination;
     private Date flightDate;
     private String airline;
@@ -14,7 +30,7 @@ public class Flight{
     private String flightType;
     private Integer capacity;
     private Integer cost;
-//    private String arrivalGate;
+    private String arrivalGate;
 //    private String departureGate;
 //    private String flightDuration;
 
