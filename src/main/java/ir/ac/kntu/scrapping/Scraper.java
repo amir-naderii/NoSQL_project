@@ -34,11 +34,9 @@ public class Scraper {
             if(arrivalTime.matches(".*AM$")){
                 hour = Integer.parseInt(arrivalTime.substring(0, arrivalTime.length()-5));
                 minute = Integer.parseInt(arrivalTime.substring(3, arrivalTime.length()-2));
-                System.out.println(hour+" "+minute);
             }else if(arrivalTime.matches(".*PM$")){
                 hour = Integer.parseInt(arrivalTime.substring(0, arrivalTime.length()-5))+12;
                 minute = Integer.parseInt(arrivalTime.substring(3, arrivalTime.length()-2));
-                //System.out.println(hour+" "+minute);
             }else {
                 continue;
             }
@@ -47,8 +45,7 @@ public class Scraper {
             String flightId = element.select(".first").text();
             String arrivalGate = element.select(".last").text();
 
-            Flight f = new Flight(flightId, departFrom, arrivalDate, arrivalGate);
-            //System.out.println(f.getArrivalDate());
+            Flight f = new Flight(flightId, departFrom, arrivalDate, arrivalGate, now);
             DBObject flight = FlightDB.toRDBObject(f);
             DB db = MongoDBSetUp.getInstance().getDB("FlightDataBase");
             DBCollection collection = db.getCollection("flights");

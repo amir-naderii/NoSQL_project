@@ -45,7 +45,7 @@ public class Menu {
             case "1":
                 System.out.println("Enter a Date: month day");
                 Date date = new Date(year,
-                        Integer.valueOf(scanner.nextLine()), Integer.valueOf(scanner.nextLine()));
+                        Integer.valueOf(scanner.nextLine())-1, Integer.valueOf(scanner.nextLine()), 0,0);
                 System.out.println("Do You Want To Add Class:");
                 if (scanner.nextLine().equals("yes")) {
                     System.out.println("Enter Flight Class:");
@@ -96,9 +96,9 @@ public class Menu {
                 if (scanner.nextLine().equals("yes")) {
                     System.out.println("Enter Flight FirstDate SecondDate:");
                     Date date1 = new Date(year,
-                            Integer.valueOf(scanner.nextLine()), Integer.valueOf(scanner.nextLine()));
+                            Integer.valueOf(scanner.nextLine())-1, Integer.valueOf(scanner.nextLine()));
                     Date date2 = new Date(year,
-                            Integer.valueOf(scanner.nextLine()), Integer.valueOf(scanner.nextLine()));
+                            Integer.valueOf(scanner.nextLine())-1, Integer.valueOf(scanner.nextLine()));
                     showMode(query.eighthQuery(date1,date2,scanner.nextLine(),scanner.nextLine(),
                             0,Integer.valueOf(scanner.nextLine()), Integer.valueOf(
                                     scanner.nextLine())));
@@ -113,9 +113,9 @@ public class Menu {
                 if (scanner.nextLine().equals("yes")) {
                     System.out.println("Enter Flight FirstDate SecondDate:");
                     Date date1 = new Date(year,
-                            Integer.valueOf(scanner.nextLine()), Integer.valueOf(scanner.nextLine()));
+                            Integer.valueOf(scanner.nextLine())-1, Integer.valueOf(scanner.nextLine()));
                     Date date2 = new Date(year,
-                            Integer.valueOf(scanner.nextLine()), Integer.valueOf(scanner.nextLine()));
+                            Integer.valueOf(scanner.nextLine())-1, Integer.valueOf(scanner.nextLine()));
                     showMode(query.eighthQuery(date1,date2,scanner.nextLine(),scanner.nextLine(),
                             Integer.valueOf(scanner.nextLine()),
                             0, 0));
@@ -128,12 +128,12 @@ public class Menu {
                 System.out.println("Enter Departure Destination Date:");
                 showMode(query.ninthQuery(scanner.nextLine(), scanner.nextLine(),
                         new Date(year,
-                                Integer.valueOf(scanner.nextLine()),
+                                Integer.valueOf(scanner.nextLine())-1,
                                 Integer.valueOf(scanner.nextLine()))));
             case "8":
                 System.out.println("Enter Date Airline");
                 if (collection.deleteMany(query.tenthQuery(new Date(year,
-                        Integer.valueOf(scanner.nextLine()),
+                        Integer.valueOf(scanner.nextLine())-1,
                         Integer.valueOf(scanner.nextLine())), scanner.nextLine())).wasAcknowledged()) {
                     System.out.println("Objects Deleted");
                     break;
@@ -153,7 +153,7 @@ public class Menu {
                 System.out.println("Enter Airline, Date Departure Destination");
                 if (collection.updateOne(query.twelfthQuery(scanner.nextLine(),
                         new Date(year,
-                        Integer.valueOf(scanner.nextLine()),
+                        Integer.valueOf(scanner.nextLine())-1,
                         Integer.valueOf(scanner.nextLine())),
                         scanner.nextLine(), scanner.nextLine()),
                         query.updateCapacity(Integer.valueOf(scanner.nextLine()))).wasAcknowledged()) {
@@ -166,7 +166,7 @@ public class Menu {
                 System.out.println("Enter DepartureCountry DestinationCountry Date");
                 showMode(query.thirteenthQuery(scanner.nextLine(), scanner.nextLine(),
                         new Date(year,
-                                Integer.valueOf(scanner.nextLine()),
+                                Integer.valueOf(scanner.nextLine())-1,
                                 Integer.valueOf(scanner.nextLine()))));
                 break;
             case "12":

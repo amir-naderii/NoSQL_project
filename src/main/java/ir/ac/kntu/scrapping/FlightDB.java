@@ -26,7 +26,8 @@ public class FlightDB {
                         .append("city",flight.getDepartFrom().getCity())
                         .append("airport",flight.getDepartFrom().getAirport()))
                 .append("arrivalDate", flight.getArrivalDate())
-                .append("arrivalGate", flight.getArrivalGate());
+                .append("arrivalGate", flight.getArrivalGate()).append(
+                "timestamp", flight.getCrawlDate());
     }
 
 }

@@ -7,22 +7,7 @@ import java.util.Date;
 public class Flight{
     private String flightId;
     private Address departFrom;
-
-    public String getArrivalGate() {
-        return arrivalGate;
-    }
-
-    public void setArrivalGate(String arrivalGate) {
-        this.arrivalGate = arrivalGate;
-    }
-
-    public Flight(String flightId, Address departFrom, Date arrivalDate, String arrivalGate) {
-        this.flightId = flightId;
-        this.departFrom = departFrom;
-        this.arrivalDate = arrivalDate;
-        this.arrivalGate = arrivalGate;
-    }
-
+    private Date crawlDate;
     private Address destination;
     private Date flightDate;
     private String airline;
@@ -31,9 +16,15 @@ public class Flight{
     private Integer capacity;
     private Integer cost;
     private String arrivalGate;
-//    private String departureGate;
-//    private String flightDuration;
 
+    public Flight(String flightId, Address departFrom, Date arrivalDate, String arrivalGate,
+                  Date crawlDate) {
+        this.flightId = flightId;
+        this.departFrom = departFrom;
+        this.arrivalDate = arrivalDate;
+        this.arrivalGate = arrivalGate;
+        this.crawlDate = crawlDate;
+    }
 
     public Flight(String flightId, Address departFrom, Address destination, Date flightDate, String airline,
                   Date arrivalDate, String flightType, Integer capacity, Integer cost) {
@@ -47,6 +38,16 @@ public class Flight{
         this.capacity = capacity;
         this.cost = cost;
     }
+
+
+    public String getArrivalGate() {
+        return arrivalGate;
+    }
+
+    public void setArrivalGate(String arrivalGate) {
+        this.arrivalGate = arrivalGate;
+    }
+
 
     public String getFlightId() {
         return flightId;
@@ -118,6 +119,14 @@ public class Flight{
 
     public void setCost(Integer cost) {
         this.cost = cost;
+    }
+
+    public Date getCrawlDate() {
+        return crawlDate;
+    }
+
+    public void setCrawlDate(Date crawlDate) {
+        this.crawlDate = crawlDate;
     }
 
     @Override
