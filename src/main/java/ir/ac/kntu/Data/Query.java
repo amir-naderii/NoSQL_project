@@ -52,7 +52,7 @@ public class Query {
 //    public DBCursor forthQuery(DBCollection collection,)
 //    }
 
-
+//
     public Document fifthQuery(String flightType, Date date, int priceFrom,
                                 int priceTo, String departure, String destination,String avrOrMax){
         Document fifthQuery = null;
@@ -67,11 +67,11 @@ public class Query {
         else if(avrOrMax.equals("avr")){
             fifthQuery = new Document("$and", Arrays.asList(
                     new Document("flightType", flightType),
-                    forthQuery(departure, destination).getQuery()));
+                    forthQuery(departure, destination)));
         }else if(avrOrMax.equals("max")){
             fifthQuery = new BasicDBObject("$and", Arrays.asList(
-                    new BasicDBObject("flightType", flightType),
-                    thirdQuery(departure, destination).getQuery()));
+                    new Document("flightType", flightType),
+                    thirdQuery(departure, destination)));
         }
 
         return fifthQuery;
@@ -170,5 +170,20 @@ public class Query {
                 new Document("flightDate", new Document("$lt", nextDate))));
     }
     // .projection(Projections.include("departure.airport","destination.airport))
+
+    public FindIterable sortQuery(MongoCollection collection,Document doc, boolean ascOrDesc, boolean dateOrCost){
+        FindIterable iter = null;
+        if(ascOrDesc && dateOrCost) {
+            iter = collection.find(doc).sort(Sorts.ascending("flightDate"));
+        }
+        else if(ascOrDesc){
+            iter = collection.find(doc).sort(Sorts.ascending("cost"));
+        }else if(dateOrCost){
+            iter = collection.find(doc).sort(Sorts.descending("flightDate"));
+        }else{
+            iter = collection.find(doc).sort(Sorts.descending("cost"));
+        }
+        return iter;
+    }
 }
 
