@@ -20,6 +20,15 @@ public class FlightDB {
                 .append("cost",flight.getCost());
     }
 
+    public static final DBObject toRDBObject(Flight flight){
+        return new BasicDBObject("flightId", flight.getFlightId())
+                .append("departure", new BasicDBObject("country",flight.getDepartFrom().getCountry())
+                        .append("city",flight.getDepartFrom().getCity())
+                        .append("airport",flight.getDepartFrom().getAirport()))
+                .append("arrivalDate", flight.getArrivalDate())
+                .append("arrivalGate", flight.getArrivalGate());
+    }
+
 }
 
 //.append("flightDate",flight.getFlightDate())
