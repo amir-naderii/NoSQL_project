@@ -126,17 +126,15 @@ public class Query {
         );
     }// add this to the end of find in helper function .projection(Projections.include("airline"))
 
-    public List<Document> tenthQuery(Date date, String airline){
+    public Document tenthQuery(Date date, String airline){
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.add(Calendar.DATE, 1);
         Date nextDate = c.getTime();
-        return Arrays.asList(new Document("$match", new Document("$and",Arrays.asList(
+        return new Document("$and",Arrays.asList(
                 new Document("airline",airline),
                 new Document("flightDate", new Document("$gte", date)),
-                new Document("flightDate", new Document("$lt", nextDate)))))
-                , new Document("$project", new Document("_id", 0))
-        );
+                new Document("flightDate", new Document("$lt", nextDate))));
     }// this query is for deletion
 
     public Bson updateCapacity(int newCapacity){
@@ -162,7 +160,6 @@ public class Query {
                 new Document("airline", airline)
         ));
     }
-    //collection.updateOne(query.twelfthQuery(flightId,query.updateCapacity(newCapacity);
 
     public List<Document> thirteenthQuery(String departureCon, String destinationCon, Date date){
         Calendar c = Calendar.getInstance();
@@ -179,22 +176,6 @@ public class Query {
                         .append("destination.airport", 1)
                 )
         );
-    }
-    // .projection(Projections.include("departure.airport","destination.airport))
-
-    public List<AggregateIterable> pagingQuery(MongoCollection<Document> collection, int pageSize){
-        long size = collection.countDocuments();
-        int i = 0;
-        List<AggregateIterable> result = new ArrayList<>();
-        while(size > 0) {
-            result.add(collection.aggregate(Arrays.asList(
-                    new Document("$skip", i*pageSize),
-                    new Document("$limit", pageSize)
-            )));
-            size -= pageSize;
-            i++;
-        }
-        return result;
     }
 
     public List<Document> sortQuery(List<Document> docs, boolean ascOrDesc, boolean dateOrCost){
