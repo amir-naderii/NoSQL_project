@@ -147,23 +147,23 @@ public class Query {
         return update;
     }
 
-    public List<Document> eleventhQuery(String flightId){
-        return Arrays.asList(new Document("$match", new Document("flightId",flightId)));
+    public Document eleventhQuery(String flightId){
+        return new Document("flightId",flightId);
     }
     // collection.updateOne(query.eleventhQuery(flightId,query.updateCapacity(newCapacity);
 
-    public List<Document> twelfthQuery(String airline, Date date, String departure, String destination){
+    public Document twelfthQuery(String airline, Date date, String departure, String destination){
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.add(Calendar.DATE, 1);
         Date nextDate = c.getTime();
-        return Arrays.asList(new Document("$match", new Document("$and",Arrays.asList(
+        return  new Document("$and",Arrays.asList(
                 new Document("departure.city", departure),
                 new Document("destination.city", destination),
                 new Document("flightDate", new Document("$gte", date)),
                 new Document("flightDate", new Document("$lt", nextDate)),
                 new Document("airline", airline)
-        ))));
+        ));
     }
     //collection.updateOne(query.twelfthQuery(flightId,query.updateCapacity(newCapacity);
 

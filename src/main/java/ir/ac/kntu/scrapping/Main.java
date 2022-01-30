@@ -18,7 +18,7 @@ public class Main {
         Query query = new Query();
         Date date = new Date(new Date().getYear(),Calendar.FEBRUARY,7,0,0);
         Document query11 = new Document("id","563");
-        collection.aggregate(query.sixthQuery(300, 500,"Isfahan", "Doha"))
+        collection.aggregate(query.firstQuery(date))
                 .forEach((Block<? super Document>)
                         doc -> System.out.println(doc.toJson()));
 //        int cnt = 0;
